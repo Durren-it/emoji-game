@@ -14,6 +14,8 @@ let isHardMode = false;
 let hitPosition;
 let timerId;
 let countdownTimerId;
+let squarePositions = Array.from({ length: squares.length }, (_, i) => i);
+let lastSquareIndex;
 
 // Gestione difficoltà
 easyButton.addEventListener('click', () => {
@@ -22,7 +24,7 @@ easyButton.addEventListener('click', () => {
 });
 
 normalButton.addEventListener('click', () => {
-    emojiSpeed = 500; 
+    emojiSpeed; 
     startGame();
 });
 
@@ -37,12 +39,21 @@ function randomSquare() {
     squares.forEach((square) => {
         square.classList.remove('emoji');
     });
-    // Prendiamo un quadrato casuale
-    let randomSquare = squares[Math.floor(Math.random() * 9) + 1];
+
+    let randomIndex;
+    do {
+        // Seleziona un indice casuale dall'array
+        randomIndex = Math.floor(Math.random() * squarePositions.length);
+    } while (randomIndex === lastSquareIndex); // Ripeti finché l'indice è uguale all'ultimo
+
+    // Ottieniamo il quadrato corrispondente
+    const randomSquare = squares[squarePositions[randomIndex]]; 
     // Aggiungiamo la classe 'emoji'
     randomSquare.classList.add('emoji');
     // Salviamo la posizione del quadrato giusto
     hitPosition = randomSquare.id;
+    // Aggiorniamo l'ultimo indice selezionato
+    lastSquareIndex = randomIndex;
 }
 
 function moveEmoji() {
