@@ -57,29 +57,23 @@ function randomSquare() {
 }
 
 function moveEmoji() {
-    // Definiamo una funzione interna ricorsiva chiamata 'move'
-    function move() {
-        // Sposta l'emoji su un quadrato casuale
-        randomSquare();
+    // Sposta l'emoji su un quadrato casuale
+    randomSquare();
 
-        // Se siamo in modalità difficile, aumentiamo la difficoltà:
-        if (isHardMode) {
-            emojiSpeed -= 9; // Rende il gioco più veloce riducendo il tempo tra i movimenti
+    // Se siamo in modalità difficile, aumentiamo la difficoltà:
+    if (isHardMode) {
+        emojiSpeed -= 9; // Rende il gioco più veloce riducendo il tempo tra i movimenti
 
-            // Impediamo che emojiSpeed scenda sotto un certo limite (100ms)
-            if (emojiSpeed < 100) emojiSpeed = 100;
+        // Impediamo che emojiSpeed scenda sotto un certo limite (100ms)
+        if (emojiSpeed < 100) emojiSpeed = 100;
 
-            // Mostriamo la nuova velocità nella console per debugging
-            console.log("Nuova velocità:", emojiSpeed);
-        }
-
-        // Usiamo setTimeout per richiamare questa funzione dopo 'emojiSpeed' millisecondi
-        // In questo modo, la velocità può cambiare ad ogni iterazione
-        timerId = setTimeout(move, emojiSpeed);
+        // Mostriamo la nuova velocità nella console per debugging
+        console.log("Nuova velocità:", emojiSpeed);
     }
 
-    // Avviamo il primo ciclo chiamando subito 'move'
-    move();
+    // Usiamo setTimeout per richiamare questa funzione dopo 'emojiSpeed' millisecondi
+    // In questo modo, la velocità può cambiare ad ogni iterazione
+    timerId = setTimeout(moveEmoji, emojiSpeed);
 }
 
 function countdown() {
