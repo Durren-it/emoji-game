@@ -40,14 +40,15 @@ function randomSquare() {
         square.classList.remove('emoji');
     });
 
-    let randomIndex;
-    do {
-        // Seleziona un indice casuale dall'array
-        randomIndex = Math.floor(Math.random() * squarePositions.length);
-    } while (randomIndex === lastSquareIndex); // Ripeti finché l'indice è uguale all'ultimo
+    // Creiamo un array temporaneo che esclude l'indice precedente
+    const availableIndices = squarePositions.filter((index) => index !== lastSquareIndex);
+
+    // Seleziona un indice casuale dall'array temporaneo
+    const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
 
     // Ottieniamo il quadrato corrispondente
-    const randomSquare = squares[squarePositions[randomIndex]]; 
+    const randomSquare = squares[randomIndex];
+
     // Aggiungiamo la classe 'emoji'
     randomSquare.classList.add('emoji');
     // Salviamo la posizione del quadrato giusto
