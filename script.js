@@ -1,12 +1,36 @@
 const squares = document.querySelectorAll('.square');
 const score = document.querySelector('#score');
 const timeLeft = document.querySelector('#time-left');
+const difficultyMenu = document.querySelector('#difficulty-menu');
+const gameContainer = document.querySelector('#game-container');
+const easyButton = document.querySelector('#easy');
+const normalButton = document.querySelector('#normal');
+const hardButton = document.querySelector('#hard');
 
+let emojiSpeed = 500; // Velocità default
 let result = 0;
 let currentTime = 60;
+let isHardMode = false;
 let hitPosition;
 let timerId;
+let countdownTimerId;
 
+// Gestione difficoltà
+easyButton.addEventListener('click', () => {
+    emojiSpeed = 1000; 
+    startGame();
+});
+
+normalButton.addEventListener('click', () => {
+    emojiSpeed = 500; 
+    startGame();
+});
+
+hardButton.addEventListener('click', () => {
+    emojiSpeed = 1000;
+    isHardMode = true; 
+    startGame();
+});
 
 function randomSquare() {
     // Puliamo tutti i quadrati
@@ -22,13 +46,22 @@ function randomSquare() {
 }
 
 function moveEmoji() {
-    timerId = setInterval(randomSquare, 500);
+    clearInterval(timerId); // Reset timer
+    timerId = setInterval(randomSquare, emojiSpeed);
 }
 
 function countdown() {
     // Decrementa il tempo rimanente di un secondo
     currentTime--;
     timeLeft.textContent = currentTime; // Aggiorna il tempo rimanente sullo schermo
+
+    // REMINDER: Se durata gioco verrà modificata, aggiungere un limite ad emojiSpeed per modalità hard
+    if (isHardMode) {
+        emojiSpeed -= 14; // Riduci la velocità di 14ms ogni secondo
+    }
+
+    clearInterval(timerId); // Resetta il timer precedente
+    timerId = setInterval(randomSquare, emojiSpeed); // Applica la nuova velocità
 
     // Se il tempo è scaduto, ferma il gioco
     if (currentTime === 0) {
@@ -50,5 +83,9 @@ squares.forEach((square) => {
     });
 });
 
-moveEmoji();
-let countdownTimerId = setInterval(countdown, 1000);
+function startGame() {
+    difficultyMenu.style.display = 'none'
+    gameContainer.style.display = 'block'
+    moveEmoji();
+    countdownTimerId = setInterval(countdown, 1000);
+}

@@ -10,6 +10,22 @@ body {
     color: #fff;
 }
 
+#difficulty-menu {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#difficulty-menu button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#game-container {
+    display: none;
+}
+
 .scores-container {
     display: flex;
     justify-content: center;
