@@ -74,7 +74,13 @@ body {
 }
 
 .emoji {
-    background-image: url("https://w7.pngwing.com/pngs/407/764/png-transparent-yellow-smiley-emoji-emoji-computer-icons-emoticon-sunglasses-emoji-smiley-sticker-glasses.png");
+    background-image: url("https://icon2.cleanpng.com/lnd/20240531/qzv/ayx4q5edv.webp");
+    background-position: center;
+    background-size: cover;
+}
+
+.emoji-bad {
+    background-image: url("https://banner2.cleanpng.com/20200213/wt/transparent-emoticon-5e45ec6357e9d4.0366297815816408033601.jpg");
     background-position: center;
     background-size: cover;
 }

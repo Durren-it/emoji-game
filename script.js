@@ -16,6 +16,9 @@ let timerId;
 let countdownTimerId;
 let squarePositions = Array.from({ length: squares.length }, (_, i) => i);
 let lastSquareIndex;
+let badHitPosition;
+let lastBadSquareIndex;
+let badEmojiTimerId;
 
 // Gestione difficoltà
 easyButton.addEventListener('click', () => {
@@ -38,6 +41,7 @@ function randomSquare() {
     // Puliamo tutti i quadrati
     squares.forEach((square) => {
         square.classList.remove('emoji');
+        square.classList.remove('emoji-bad');
     });
 
     // Creiamo un array temporaneo che esclude l'indice precedente
@@ -55,6 +59,19 @@ function randomSquare() {
     hitPosition = randomSquare.id;
     // Aggiorniamo l'ultimo indice selezionato
     lastSquareIndex = randomIndex;
+
+    // Creiamo un array per l'emoji cattiva che esclude sia il suo ultimo indice che la posizione attuale dell'emoji buona
+    const availableIndicesForBad = squarePositions.filter((index) => 
+        index !== lastBadSquareIndex && index !== randomIndex
+    );
+
+    // Seleziona un indice casuale per l'emoji cattiva
+    // Seguendo le stessa logica di assegnazione dell'emoji buona
+    const randomBadIndex = availableIndicesForBad[Math.floor(Math.random() * availableIndicesForBad.length)];
+    const randomBadSquare = squares[randomBadIndex];
+    randomBadSquare.classList.add('emoji-bad');
+    badHitPosition = randomBadSquare.id;
+    lastBadSquareIndex = randomBadIndex;
 }
 
 function moveEmoji() {
@@ -85,6 +102,7 @@ function countdown() {
     // Se il tempo è scaduto, ferma il gioco
     if (currentTime === 0) {
         clearTimeout(timerId); // Ferma il timer dell'emoji
+        clearTimeout(badEmojiTimerId); // Ferma il timer dell'emoji cattiva
         clearInterval(countdownTimerId); // Ferma il timer del countdown
         alert('Game Over! Your score is ' + result); // Mostra il punteggio finale
     }
@@ -98,6 +116,10 @@ squares.forEach((square) => {
             result++; // Incrementa il punteggio
             score.textContent = result; // Aggiorna il punteggio sullo schermo
             hitPosition = null; // Resetta l'indice dell'emoji
+        } else if (square.id === badHitPosition) {
+            result--; // Decrementa il punteggio
+            score.textContent = result;
+            badHitPosition = null;
         }
     });
 });
